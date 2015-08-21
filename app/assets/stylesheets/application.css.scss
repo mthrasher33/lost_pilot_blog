@@ -22,6 +22,8 @@
 
 body {
 background-image: url(/assets/background.jpg);
+  background-size: cover;
+
 }
 
 h3 {
@@ -55,7 +57,7 @@ p {
     -webkit-font-smoothing: antialiased;
     font-weight: 100;
     text-align: center;
-    background: #9fd9e6;
+    background: #FFF8DC;
     border-radius: 5px;
 
       
