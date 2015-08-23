@@ -1,10 +1,19 @@
 class ArticlesController < ApplicationController
 
 	before_action :find_article, only: [:show, :edit, :update, :destroy]
-	before_action :authenticate_user!
+	before_action :authenticate_user!, except: [:index, :show]
 
 	def index
-		@articles = Article.all.order('created_at DESC')
+		@params = params[:category]
+		@list = Article.where(category_id: @category_id)
+
+		if @params.blank?
+			@articles = Article.all.order("created_at DESC")
+		else
+			@category_id = Category.find_by(name: @params).id
+			@list = Article.where(category_id: @category_id)
+			@articles = Article.where(category_id: @category_id).order("created_at DESC")
+		end
 	end
 
 	def new
@@ -20,8 +29,23 @@ class ArticlesController < ApplicationController
 		end
 	end
 
+	def edit
+	end
+
+	def update
+		@article.update(article_params)
+		redirect_to @article
+	end
+
+
 	def show
 
+	end
+
+	
+	def destroy
+		@article.destroy
+		redirect_to root_path, notice: "Successully deleted article"
 	end
 
 	private
@@ -32,7 +56,7 @@ class ArticlesController < ApplicationController
 
 
 	def article_params
-		params.require(:article).permit(:title, :content)
+		params.require(:article).permit(:title, :content, :category_id)
 	end
 
 

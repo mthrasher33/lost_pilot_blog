@@ -1,19 +1,44 @@
-.fancy-title
-	%h1.demo2 Lost Pilot
-	%h2 "More wronged than Job"
-	- @articles.each do |article|
-		%h3= link_to article.title, article
-		%p
-			Published at
-			= article.created_at.strftime('%b %d, %Y')
-		.summary
-			%p= truncate(article.content, length: 200)
+.wrapper
+	.fancy-title
+		%h1.demo2= link_to "Lost Pilot", root_path
+		%h2 "More wronged than Job"
+		- if @params.blank? 
+			#articles
+				- @articles.each do |article|
+					.article
+						%h3= link_to article.title, article
+						%p
+							Published at
+							= article.created_at.strftime('%b %d, %Y')
+						.summary
+							%p= truncate(article.content, length: 200)
+		- if @list.length > 0
+			#articles
+				- @articles.each do |article|
+					.article
+						%h3= link_to article.title, article
+						%p
+							Published at
+							= article.created_at.strftime('%b %d, %Y')
+						.summary
+							%p= truncate(article.content, length: 200)						
+		- if !@params.blank?
+			- if @list.length == 0
+				#articles
+					.article
+						%p No articles available at this time
+		=link_to 'New Article', new_article_path
+
+		
 
 
 
-	=link_to 'New Article', new_article_path
 
-:javascript
-	$(window).ready(function(){
-	$(".demo2").lettering("words").children('span').lettering();
-	});
+
+
+	:javascript
+		$(window).ready(function(){
+		$(".demo2").lettering("words").children('span').lettering();
+		});
+
+
